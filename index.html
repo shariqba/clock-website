@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DIGITAL CLOCK</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+    body {
+      min-height: 100vh;
+      background: black;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 30px;
+    }
+    .digital-clock {
+      color: #fff;
+      background: #2d2f38;
+      width: 425px;
+      padding: 20px 45px;
+      border-radius: 10px;
+      position: relative;
+    }
+    .digital-clock::before {
+      content: '';
+      position: absolute;
+      background: linear-gradient(45deg, blue, orange, green);
+      background-size: 200% 200%;
+      top: -5px;
+      left: -5px;
+      bottom: -5px;
+      right: -5px;
+      z-index: -1;
+      filter: blur(30px);
+      animation: glowing 5s ease infinite;
+    }
+    @keyframes glowing {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .time {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+    .left-side { display: flex; }
+    .right-side {
+      display: flex;
+      flex-direction: column;
+    }
+    .hours {
+      font-size: 8em;
+      font-weight: 600;
+      padding: 10px;
+      line-height: 125px;
+      background: -webkit-linear-gradient(90deg, blue, white);
+      -webkit-text-fill-color: transparent;
+      -webkit-background-clip: text;
+    }
+    .dots {
+      font-size: 6em;
+      transform: translateY(-3px);
+      color: grey;
+    }
+    .minutes {
+      font-size: 5em;
+      font-weight: 500;
+      margin-left: 10px;
+      transform: translateY(10px);
+      background: -webkit-linear-gradient(90deg, orchid, white);
+      -webkit-text-fill-color: transparent;
+      -webkit-background-clip: text;
+    }
+    .right-down {
+      margin-left: 10px;
+      transform: translateY(-25px);
+    }
+    .period, .seconds {
+      font-size: 1.8em;
+      font-weight: 500;
+      margin-left: 10px;
+    }
+    .period { color: orange; }
+    .seconds { color: white; }
+    .title {
+      text-align: center;
+      margin-bottom: 15px;
+      font-size: 1.5em;
+      color: cyan;
+    }
+  </style>
+</head>
+<body>
+   
+  <!-- Pakistan Clock -->
+  <div class="digital-clock">
+    <div class="title">🇵🇰 Pakistan Time</div>
+    <div class="time">
+      <div class="left-side">
+        <span id="pk-hours" class="hours">00</span>
+      </div>
+      <div class="right-side">
+        <div class="right-top">
+          <span class="dots">:</span>
+          <span id="pk-minutes" class="minutes">00</span>
+        </div>
+        <div class="right-down">
+          <span id="pk-period" class="period">PM</span>
+          <span id="pk-seconds" class="seconds">00</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Saudi Clock -->
+  <div class="digital-clock">
+    <div class="title">🇸🇦 Saudi Arabia Time</div>
+    <div class="time">
+      <div class="left-side">
+        <span id="sa-hours" class="hours">00</span>
+      </div>
+      <div class="right-side">
+        <div class="right-top">
+          <span class="dots">:</span>
+          <span id="sa-minutes" class="minutes">00</span>
+        </div>
+        <div class="right-down">
+          <span id="sa-period" class="period">PM</span>
+          <span id="sa-seconds" class="seconds">00</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- USA Clock -->
+  <div class="digital-clock">
+    <div class="title">🇺🇸 United States (New York)</div>
+    <div class="time">
+      <div class="left-side">
+        <span id="us-hours" class="hours">00</span>
+      </div>
+      <div class="right-side">
+        <div class="right-top">
+          <span class="dots">:</span>
+          <span id="us-minutes" class="minutes">00</span>
+        </div>
+        <div class="right-down">
+          <span id="us-period" class="period">PM</span>
+          <span id="us-seconds" class="seconds">00</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- London Clock -->
+  <div class="digital-clock">
+    <div class="title">🇬🇧 London Time</div>
+    <div class="time">
+      <div class="left-side">
+        <span id="uk-hours" class="hours">00</span>
+      </div>
+      <div class="right-side">
+        <div class="right-top">
+          <span class="dots">:</span>
+          <span id="uk-minutes" class="minutes">00</span>
+        </div>
+        <div class="right-down">
+          <span id="uk-period" class="period">PM</span>
+          <span id="uk-seconds" class="seconds">00</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function updateClock() {
+      let now = new Date();
+
+      // Pakistan
+      let pkTime = new Date(now.toLocaleString("en-US", { timeZone: "Asia/Karachi" }));
+      setClock(pkTime, "pk");
+
+      // Saudi Arabia
+      let saTime = new Date(now.toLocaleString("en-US", { timeZone: "Asia/Riyadh" }));
+      setClock(saTime, "sa");
+
+      // United States (New York)
+      let usTime = new Date(now.toLocaleString("en-US", { timeZone: "America/New_York" }));
+      setClock(usTime, "us");
+
+      // London
+      let ukTime = new Date(now.toLocaleString("en-US", { timeZone: "Europe/London" }));
+      setClock(ukTime, "uk");
+    }
+
+    function setClock(dateObj, prefix) {
+      let h = dateObj.getHours();
+      let m = dateObj.getMinutes();
+      let s = dateObj.getSeconds();
+
+      let ampm = h >= 12 ? "PM" : "AM";
+      if (h > 12) h -= 12;
+      if (h == 0) h = 12;
+
+      h = (h < 10) ? "0" + h : h;
+      m = (m < 10) ? "0" + m : m;
+      s = (s < 10) ? "0" + s : s;
+
+      document.getElementById(prefix + "-hours").innerHTML = h;
+      document.getElementById(prefix + "-minutes").innerHTML = m;
+      document.getElementById(prefix + "-seconds").innerHTML = s;
+      document.getElementById(prefix + "-period").innerHTML = ampm;
+    }
+
+    setInterval(updateClock, 1000);
+    updateClock();
+  </script>
+
+</body>
+</html>
